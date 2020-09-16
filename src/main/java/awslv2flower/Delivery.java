@@ -29,6 +29,19 @@ public class Delivery {
             BeanUtils.copyProperties(this, shipCancelled);
             shipCancelled.publishAfterCommit();
 
+        }else if (this.getStatus().equals("QuickDeliveryStart")){
+            QuickRequested quickRequested = new QuickRequested();
+            BeanUtils.copyProperties(this, quickRequested);
+            quickRequested.publishAfterCommit();
+
+            //Following code causes dependency to external APIs
+            // it is NOT A GOOD PRACTICE. instead, Event-Policy mapping is recommended.
+
+            awslv2flower.external.QuickDelivery quickDelivery = new awslv2flower.external.QuickDelivery();
+            // mappings goes here
+            quickDelivery.setOrderId(this.getId());
+            quickDelivery.setStatus("QuickDeliveryStart");
+            DeliveryApplication.applicationContext.getBean(awslv2flower.external.QuickDeliveryService.class).quickRequest(quickDelivery);
         }
     }
 
