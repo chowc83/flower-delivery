@@ -83,7 +83,7 @@ public class OrderDetailViewHandler {
                 for(OrderDetail orderDetail : orderDetailList){
                     // view 객체에 이벤트의 eventDirectValue 를 set 함
                     orderDetail.setStatus(paymentConfirmed.getStatus());
-                    orderDetail.setPrice(paymentConfirmed.getPrice());
+                   
                     // view 레파지 토리에 save
                     orderDetailRepository.save(orderDetail);
                 }
@@ -118,6 +118,40 @@ public class OrderDetailViewHandler {
                 for(OrderDetail orderDetail : orderDetailList){
                     // view 객체에 이벤트의 eventDirectValue 를 set 함
                     orderDetail.setStatus(shipCancelled.getStatus());
+                    // view 레파지 토리에 save
+                    orderDetailRepository.save(orderDetail);
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    @StreamListener(KafkaProcessor.INPUT)
+    public void whenQuickShipped_then_UPDATE_6(@Payload QuickShipped quickShipped) {
+        try {
+            if (quickShipped.isMe()) {
+                // view 객체 조회
+                List<OrderDetail> orderDetailList = orderDetailRepository.findByOrderId(quickShipped.getOrderId());
+                for(OrderDetail orderDetail : orderDetailList){
+                    // view 객체에 이벤트의 eventDirectValue 를 set 함
+                    orderDetail.setStatus(quickShipped.getStatus());
+                    // view 레파지 토리에 save
+                    orderDetailRepository.save(orderDetail);
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    @StreamListener(KafkaProcessor.INPUT)
+    public void whenQuickRequested_then_UPDATE_7(@Payload QuickRequested quickRequested) {
+        try {
+            if (quickRequested.isMe()) {
+                // view 객체 조회
+                List<OrderDetail> orderDetailList = orderDetailRepository.findByOrderId(quickRequested.getOrderId());
+                for(OrderDetail orderDetail : orderDetailList){
+                    // view 객체에 이벤트의 eventDirectValue 를 set 함
+                    orderDetail.setStatus(quickRequested.getStatus());
                     // view 레파지 토리에 save
                     orderDetailRepository.save(orderDetail);
                 }

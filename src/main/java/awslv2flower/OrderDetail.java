@@ -16,7 +16,6 @@ public class OrderDetail {
         private String phoneNumber;
         private String address;
         private String customerName;
-        private Long price;
         private String status;
 
 
@@ -69,13 +68,7 @@ public class OrderDetail {
         public void setCustomerName(String customerName) {
             this.customerName = customerName;
         }
-        public Long getPrice() {
-            return price;
-        }
-
-        public void setPrice(Long price) {
-            this.price = price;
-        }
+  
         public String getStatus() {
             return status;
         }
