@@ -68,4 +68,4 @@ spring:
           contentType: application/json
 api:
   url:
-    payment: http://admin21-flower-quickdelivery:8080
+    quickdelivery: http://admin21-flower-quickdelivery:8080
